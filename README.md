@@ -1,0 +1,1 @@
+# Open-MongoDB-operator-chart
