@@ -1,61 +1,45 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "open-mongodb.fullname" . }}
+  name: mongodb-operator
   labels:
-    {{- include "open-mongodb.labels" . | nindent 4 }}
+    control-plane: mongodb-operator
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "open-mongodb.selectorLabels" . | nindent 6 }}
+      control-plane: mongodb-operator
+  replicas: 1
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "open-mongodb.selectorLabels" . | nindent 8 }}
+        control-plane: mongodb-operator
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "open-mongodb.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        runAsNonRoot: true
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - command:
+        - /manager
+        args:
+        - --leader-elect
+        image: "{{ .Values.localRegistry | default "docker.io" }}{{"/"}}{{ .Values.namespaceOverride | default "radondb" }}{{"/"}}{{ .Values.manager.image }}:{{ .Values.manager.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.pullPolicy }}"
+        name: manager
+        securityContext:
+          allowPrivilegeEscalation: false
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          {{- toYaml .Values.manager.resources | nindent 12 }}
+      serviceAccountName: mongodb-operator
+      terminationGracePeriodSeconds: 10
