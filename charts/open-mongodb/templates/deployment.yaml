@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb-operator
+  name: open-mongodb-operator
   labels:
-    control-plane: mongodb-operator
+    control-plane: open-mongodb-operator
 spec:
   selector:
     matchLabels:
-      control-plane: mongodb-operator
+      control-plane: open-mongodb-operator
   replicas: 1
   template:
     metadata:
       labels:
-        control-plane: mongodb-operator
+        control-plane: open-mongodb-operator
     spec:
       securityContext:
         runAsNonRoot: true
@@ -41,5 +41,5 @@ spec:
           periodSeconds: 10
         resources:
           {{- toYaml .Values.manager.resources | nindent 12 }}
-      serviceAccountName: mongodb-operator
+      serviceAccountName: open-mongodb-operator
       terminationGracePeriodSeconds: 10
