@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   open-mongodb:
   - apiVersion: v2
+    appVersion: 1.0.8
+    created: "2022-11-09T13:32:55.543958342Z"
+    description: The Open MongoDB Operator Helm chart for Kubernetes
+    digest: 4c38a4efa1ca278cd61680c177f71003c052eab1e93eb7a045f41eda800c7d2f
+    name: open-mongodb
+    type: application
+    urls:
+    - https://github.com/QingCloudAppcenter/Open-MongoDB-operator-chart/releases/download/open-mongodb-1.0.8/open-mongodb-1.0.8.tgz
+    version: 1.0.8
+  - apiVersion: v2
     appVersion: 1.0.7
     created: "2022-11-09T11:38:34.177393313Z"
     description: The Open MongoDB Operator Helm chart for Kubernetes
