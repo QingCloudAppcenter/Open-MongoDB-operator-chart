@@ -13,6 +13,7 @@ rules:
   - events
   - secrets
   - services
+  - persistentvolumeclaims
   verbs:
   - create
   - delete
