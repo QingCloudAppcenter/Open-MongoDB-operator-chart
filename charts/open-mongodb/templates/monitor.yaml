@@ -4,6 +4,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
+    app.kubernetes.io/vendor: kubesphere       
     control-plane: controller-manager
   name: controller-manager-metrics-monitor
   namespace: {{ .Release.Namespace }}
