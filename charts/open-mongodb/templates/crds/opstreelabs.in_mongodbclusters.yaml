@@ -1314,6 +1314,8 @@ spec:
                 type: boolean
               message:
                 type: string
+              reason:
+                type: string
               state:
                 type: string
               version:
