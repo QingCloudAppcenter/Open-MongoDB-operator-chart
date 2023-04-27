@@ -22,6 +22,21 @@ spec:
         - /manager
         args:
         - --leader-elect
+        env:
+          - name: LOCAL_REGISTRY
+            value: {{ .Values.localRegistry | default "docker.io" }}
+          - name: NAMESPACE_OVERRIDE
+            value: {{ .Values.namespaceOverride | default "radondb" }}
+          - name: DEFAULT_MONGODB_IMAGE
+            value: {{ .Values.cluster.mongodb.image }}
+          - name: DEFAULT_MONGODB_VERSION
+            value: {{ .Values.cluster.mongodb.version }}
+          - name: DEFAULT_EXPORTER_IMAGE
+            value: {{ .Values.cluster.exporter.image }}
+          - name: DEFAULT_EXPORTER_VERSION
+            value: {{ .Values.cluster.exporter.version }}
+          - name: LOG_FORMAT
+            value: {{ .Values.logFormat | default "plaintext" }}
         image: "{{ .Values.localRegistry | default "docker.io" }}{{"/"}}{{ .Values.namespaceOverride | default "radondb" }}{{"/"}}{{ .Values.manager.image }}:{{ .Values.manager.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.pullPolicy }}"
         name: manager
