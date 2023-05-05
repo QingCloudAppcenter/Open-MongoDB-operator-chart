@@ -24,10 +24,10 @@ spec:
       basicAuth:
         password:
           key: password
-          name: {{ .Release.prometheus.secretName }}
+          name: {{ .Values.prometheus.secretName }}
         username:
           key: username
-          name: {{ .Release.prometheus.secretName }}
+          name: {{ .Values.prometheus.secretName }}
       tlsConfig:
         insecureSkipVerify: true
   namespaceSelector:

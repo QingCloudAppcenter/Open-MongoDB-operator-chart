@@ -35,7 +35,7 @@ cluster:
 logFormat: plaintext
 
 prometheus:
-  secretName: "prometheus-credentials-secret"
+  secretName: prometheus-credentials-secret
   # prometheus/prometheus
   username: cHJvbWV0aGV1cw==
   password: cHJvbWV0aGV1cw==
