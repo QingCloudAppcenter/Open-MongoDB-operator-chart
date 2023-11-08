@@ -64,3 +64,6 @@ securityContext: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+serviceMonitor:
+  labels:
