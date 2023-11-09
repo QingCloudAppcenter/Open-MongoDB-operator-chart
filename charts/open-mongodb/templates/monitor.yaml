@@ -16,8 +16,8 @@ kind: ServiceMonitor
 metadata:
   labels:
     app.kubernetes.io/vendor: kubesphere
-    {{- if .Values.serviceMonitor.labels }}
-    {{- toYaml .Values.serviceMonitor.labels | nindent 4 }}
+    {{- if .Values.customLabels.serviceMonitor.labels }}
+    {{- toYaml .Values.customLabels.serviceMonitor.labels | nindent 4 }}
     {{- end }}
   name: open-mongodb-metrics-monitor
   namespace: {{ .Release.Namespace }}
