@@ -24,7 +24,7 @@ spec:
         - --leader-elect
         env:
           - name: LOCAL_REGISTRY
-            value: {{ .Values.localRegistry | default "docker.io" }}
+            value: {{ default "docker.io" (default .Values.localRegistry .Values.global.imageRegistry) }}
           - name: NAMESPACE_OVERRIDE
             value: {{ .Values.namespaceOverride | default "radondb" }}
           - name: DEFAULT_MONGODB_IMAGE
@@ -37,7 +37,7 @@ spec:
             value: {{ .Values.cluster.exporter.version }}
           - name: LOG_FORMAT
             value: {{ .Values.logFormat | default "plaintext" }}
-        image: "{{ .Values.localRegistry | default "docker.io" }}{{"/"}}{{ .Values.namespaceOverride | default "radondb" }}{{"/"}}{{ .Values.manager.image }}:{{ .Values.manager.tag | default .Chart.AppVersion }}"
+        image: "{{ default "docker.io" (default .Values.localRegistry .Values.global.imageRegistry) }}{{"/"}}{{ .Values.namespaceOverride | default "radondb" }}{{"/"}}{{ .Values.manager.image }}:{{ .Values.manager.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.pullPolicy }}"
         name: manager
         securityContext:
