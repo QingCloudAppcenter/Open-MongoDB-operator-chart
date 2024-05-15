@@ -18,7 +18,7 @@ manager:
       memory: 300Mi
   image: open-mongodb-operator
   ## tag default uses appVersion from Chart.yaml, to override specify tag tag: "v1.1"
-  tag: "1.1.6"
+  tag: "1.1.11"
   # If a watchNamespace is specified, the manager's cache will be restricted to
   # watch objects in the desired namespace. Defaults is to watch all namespaces.
   watchNamespace:
@@ -26,10 +26,10 @@ manager:
 cluster:
   mongodb:
     image: ot-mongodb
-    version: v5.0.10
+    version: v5.0.26
   exporter:
     image: mongodb-exporter
-    version: 0.11.2
+    version: 0.37.0
 
 # format output log
 # - plaintext (default)
